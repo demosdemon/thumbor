@@ -75,10 +75,8 @@ def validate_config(config, server_parameters):
     if server_parameters.security_key is None:
         server_parameters.security_key = config.SECURITY_KEY
 
-    if isinstance(server_parameters.security_key, six.binary_type):
-        server_parameters.security_key = server_parameters.security_key.decode('utf-8')
-
-    if not isinstance(server_parameters.security_key, six.string_types):
+    # the ServerParameters always converts unicode to bytes
+    if not isinstance(server_parameters.security_key, six.binary_type):
         raise RuntimeError(
             'No security key was found for this instance of thumbor. ' +
             'Please provide one using the conf file or a security key file.')
