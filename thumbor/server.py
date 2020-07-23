@@ -15,6 +15,7 @@ import sys
 import warnings
 from os.path import dirname, expanduser
 
+import six
 from socketfromfd import fromfd as socket_from_fd
 
 import tornado.ioloop
@@ -28,11 +29,6 @@ from thumbor.context import Context
 from thumbor.importer import Importer
 from thumbor.signal_handler import setup_signal_handler
 from thumbor.utils import which
-
-try:
-    basestring
-except NameError:
-    basestring = str
 
 
 def get_as_integer(value):
@@ -79,7 +75,7 @@ def validate_config(config, server_parameters):
     if server_parameters.security_key is None:
         server_parameters.security_key = config.SECURITY_KEY
 
-    if not isinstance(server_parameters.security_key, basestring):
+    if not isinstance(server_parameters.security_key, six.string_types):
         raise RuntimeError(
             'No security key was found for this instance of thumbor. ' +
             'Please provide one using the conf file or a security key file.')
